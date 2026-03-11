@@ -1,3 +1,45 @@
+const API_KEY = "YOUR_TMDB_API_KEY";
+
+const BASE_URL = "https://api.themoviedb.org/3";
+
+const IMG_URL = "https://image.tmdb.org/t/p/w500";
+
+async function loadTrendingMovies() {
+
+  const res = await fetch(
+    `${BASE_URL}/trending/movie/week?api_key=${API_KEY}`
+  );
+
+  const data = await res.json();
+
+  renderTrending(data.results);
+
+}
+
+function renderTrending(movies) {
+
+  const grid = document.querySelector(".movie-grid");
+
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  movies.slice(0,8).forEach(movie => {
+
+    grid.innerHTML += `
+      <div class="movie-card">
+
+        <img src="${IMG_URL + movie.poster_path}">
+
+        <p>${movie.title}</p>
+
+      </div>
+    `;
+
+  });
+
+}
+
 // SUBSCRIPTIONS
 function toggleSub(btn) {
 
@@ -123,3 +165,9 @@ function applyFilters() {
 
 
 document.addEventListener("DOMContentLoaded", applyFilters);
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  loadTrendingMovies();
+
+});
