@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>StreamHub | Browse</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="logo">STREAMHUB</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="browse.html">Browse</a>
+    <a href="subscriptions.html">Subscriptions</a>
+  </nav>
+</header>
+
+<section class="browse-header">
+  <h1>BROWSE CONTENT</h1>
+  <p>Explore thousands of movies and TV shows from all major streaming platforms</p>
+</section>
+
+<section class="filters">
+  <h3>FILTERS</h3>
+
+  <div class="filter-row">
+    <input type="text" id="search" placeholder="Search titles..." onkeyup="applyFilters()">
+
+    <select id="platform" onchange="applyFilters()">
+      <option value="">All Platforms</option>
+      <option value="Netflix">Netflix</option>
+      <option value="Prime">Prime Video</option>
+      <option value="Disney+">Disney+</option>
+    </select>
+
+    <select id="genre" onchange="applyFilters()">
+      <option value="">All Genres</option>
+      <option value="Action">Action</option>
+      <option value="Drama">Drama</option>
+      <option value="Sci-Fi">Sci-Fi</option>
+    </select>
+
+    <select id="type" onchange="applyFilters()">
+      <option value="">All Types</option>
+      <option value="Movie">Movie</option>
+      <option value="TV">TV Show</option>
+    </select>
+  </div>
+
+  <p id="resultCount">Showing 0 results</p>
+</section>
+
+<section class="content-grid" id="contentGrid"></section>
+
+<script src="script.js"></script>
+</body>
+</html>
