@@ -9,6 +9,7 @@
 
 <body>
 
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="logo">STREAMHUB</div>
 
@@ -20,6 +21,8 @@
     </nav>
   </header>
 
+
+  <!-- HERO -->
   <section class="hero hero-home">
 
     <div class="hero-content">
@@ -48,6 +51,8 @@
 
   </section>
 
+
+  <!-- FEATURES -->
   <section id="features" class="features-section">
 
     <div class="features-grid">
@@ -98,40 +103,44 @@
   </section>
 
 
+  <!-- TRENDING MOVIES -->
   <section class="movies">
 
-    <h2>Trending Now</h2>
+    <h2>Trending Movies</h2>
 
-    <div class="movie-grid">
+    <div id="movieTrending" class="movie-grid">
+      <!-- Filled dynamically by TMDB API -->
+    </div>
 
-      <div class="movie-card">
-        <img src="../assets/images/inception.jpg">
-        <p>Inception</p>
-      </div>
+  </section>
 
-      <div class="movie-card">
-        <img src="../assets/images/interstellar.jpeg">
-        <p>Interstellar</p>
-      </div>
+<section class="movies">
+  <h2>Top Rated Movies</h2>
+  <div id="topRated" class="movie-grid"></div>
+</section>
 
-      <div class="movie-card">
-        <img src="../assets/images/dark.jpeg">
-        <p>Dark</p>
-      </div>
+<section class="movies">
+  <h2>Upcoming Movies</h2>
+  <div id="upcomingMovies" class="movie-grid"></div>
+</section>
 
-      <div class="movie-card">
-        <img src="../assets/images/loki.jpeg">
-        <p>Loki</p>
-      </div>
+  <!-- TRENDING TV -->
+  <section class="movies">
 
+    <h2>Trending TV Shows</h2>
+
+    <div id="tvTrending" class="movie-grid">
+      <!-- Filled dynamically by TMDB API -->
     </div>
 
   </section>
 
 
+  <!-- FOOTER -->
   <footer>
     <p>© 2026 StreamHub. All rights reserved.</p>
   </footer>
+
 
   <script src="../js/script.js"></script>
 
