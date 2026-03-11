@@ -75,7 +75,7 @@ body {
 .hero-home {
   position: relative;
   height: 100vh;
-  background: url("images/hero-bg.jpg") center/cover no-repeat;
+  background: url("../assets/images/hero-bg.jpg") center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;

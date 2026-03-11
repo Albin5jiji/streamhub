@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>StreamHub | Subscription Manager</title>
+
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+  <header class="navbar">
+
+    <div class="logo">STREAMHUB</div>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="browse.html">Browse</a>
+      <a href="subscriptions.html">Subscriptions</a>
+    </nav>
+
+  </header>
+
+
+  <section class="subs-header">
+
+    <div>
+      <h1>Subscription Manager</h1>
+      <p>Track and manage all your streaming subscriptions</p>
+    </div>
+
+    <button class="add-btn">+ Add Subscription</button>
+
+  </section>
+
+
+  <section class="subs-stats">
+
+    <div class="stat-card">
+      <p>Active Subscriptions</p>
+      <h2 id="activeCount">0</h2>
+    </div>
+
+    <div class="stat-card">
+      <p>Monthly Spend</p>
+      <h2>₹<span id="monthlySpend">0</span></h2>
+    </div>
+
+  </section>
+
+
+  <section class="subs-grid">
+
+    <div class="subs-card active" data-price="649" data-cycle="monthly">
+
+      <h3>Netflix Premium</h3>
+
+      <p class="provider">Netflix</p>
+
+      <p class="price">₹649 / month</p>
+
+      <p class="billing">Next billing: 15 Feb 2024</p>
+
+      <button onclick="toggleSub(this)">
+        Pause Subscription
+      </button>
+
+    </div>
+
+
+    <div class="subs-card active" data-price="1499" data-cycle="yearly">
+
+      <h3>Prime Video</h3>
+
+      <p class="provider">Prime Video</p>
+
+      <p class="price">₹1499 / year</p>
+
+      <p class="billing">Next billing: 20 Jun 2024</p>
+
+      <button onclick="toggleSub(this)">
+        Pause Subscription
+      </button>
+
+    </div>
+
+
+    <div class="subs-card active" data-price="899" data-cycle="yearly">
+
+      <h3>Hotstar Super</h3>
+
+      <p class="provider">Hotstar</p>
+
+      <p class="price">₹899 / year</p>
+
+      <p class="billing">Next billing: 10 Mar 2024</p>
+
+      <button onclick="toggleSub(this)">
+        Pause Subscription
+      </button>
+
+    </div>
+
+  </section>
+
+
+  <script src="../js/script.js"></script>
+
+</body>
+
+</html>
