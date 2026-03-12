@@ -1,49 +1,100 @@
-# StreamHub
+# StreamHub 🎬
 
-StreamHub is a unified OTT discovery platform that allows users to discover movies and TV shows across multiple streaming services in one place.
+A unified OTT content discovery platform built as part of a Web Development course project.  
+Search for movies and shows, manage a watchlist, and track your streaming subscriptions — all in one place.
 
-The platform aggregates movie metadata, streaming availability, and recommendations to simplify content discovery.
+---
 
-## Features
+## What it does
 
-- Discover trending movies and TV shows
-- Search movies across streaming platforms
-- Unified watchlist across services
-- Subscription manager for OTT services
-- Personalized movie recommendations
-- Streaming availability detection
+Finding what to watch across a dozen streaming platforms is a pain. StreamHub pulls movie and show data from a single interface so you're not bouncing between Netflix, Prime, and Hotstar just to figure out where something is.
+
+Current features:
+- Browse and search movies/shows using the TMDB API
+- View metadata: ratings, genres, release dates, overviews
+- Unified watchlist to save titles you want to watch
+- OTT subscription tracker to manage your active services
+- Basic personalized recommendations based on selected genres
+
+---
 
 ## Tech Stack
 
-Frontend  
-- HTML  
-- CSS  
-- JavaScript  
+| Layer | Technology |
+|-------|-----------|
+| Markup | HTML5 |
+| Styling | CSS3 |
+| Logic | Vanilla JavaScript |
+| Data | [TMDB API](https://www.themoviedb.org/documentation/api) |
 
-APIs  
-- TMDB API (movie data)
+No frameworks. No build tools. Just the fundamentals — which was the point of the course.
 
-Future Stack  
-- Node.js backend  
-- MongoDB database  
-- AI recommendation engine
+---
 
-## Project Goals
+## Project Structure
 
-StreamHub aims to solve the fragmentation problem of modern streaming platforms by providing a centralized discovery and recommendation interface.
+```
+streamhub/
+├── frontend/
+│   ├── index.html        # Landing / home page
+│   ├── search.html       # Movie/show search
+│   ├── watchlist.html    # Saved titles
+│   ├── subscriptions.html# OTT tracker
+│   ├── style.css
+│   └── script.js
+├── .gitignore
+├── LICENSE
+└── README.md
+```
 
-## Future Features
+---
 
-- AI-based recommendation system
-- Region-based streaming availability
-- User accounts
-- Watch history tracking
-- Collaborative filtering recommendations
+## Getting Started
 
-## Screenshots
+No installation needed. Just open it.
 
-(coming soon)
+1. Clone the repo
+   ```bash
+   git clone https://github.com/Albin5jiji/streamhub.git
+   ```
+
+2. Open `frontend/index.html` in your browser
+
+3. Add your TMDB API key in `script.js`:
+   ```js
+   const API_KEY = 'your_tmdb_api_key_here';
+   ```
+   Get a free key at [themoviedb.org](https://www.themoviedb.org/settings/api)
+
+---
+
+## Roadmap
+
+This started as a frontend-only course project. The plan is to grow it into a full-stack application:
+
+- [ ] Node.js + Express backend
+- [ ] MongoDB for user accounts and persistent watchlists
+- [ ] Real streaming availability data (which platform has what)
+- [ ] Region-based filtering (IN/US/UK)
+- [ ] Collaborative filtering recommendations
+- [ ] Deploy on Vercel / Render
+
+---
+
+## Course Context
+
+Built for the Web Development module as part of B.Tech (CSE) at VIT.  
+The scope was intentionally limited to frontend fundamentals — HTML, CSS, and JavaScript — with no frameworks or backend.
+
+---
 
 ## Author
 
-Albin Thomas Jiji
+**Albin Thomas Jiji**  
+[GitHub](https://github.com/Albin5jiji)
+
+---
+
+## License
+
+[MIT](LICENSE)
