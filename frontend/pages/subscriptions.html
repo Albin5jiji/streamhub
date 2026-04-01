@@ -10,17 +10,7 @@
 
 <body>
 
-  <header class="navbar">
-
-    <div class="logo">STREAMHUB</div>
-
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="browse.html">Browse</a>
-      <a href="subscriptions.html">Subscriptions</a>
-    </nav>
-
-  </header>
+  <custom-navbar></custom-navbar>
 
 
   <section class="subs-header">
@@ -30,7 +20,7 @@
       <p>Track and manage all your streaming subscriptions</p>
     </div>
 
-    <button class="add-btn">+ Add Subscription</button>
+    <a href="#available" class="add-btn" style="text-decoration:none; display:inline-block;">+ Add Subscription</a>
 
   </section>
 
@@ -50,7 +40,8 @@
   </section>
 
 
-  <section class="subs-grid">
+  <h2 style="padding: 0 60px 20px;">Active Subscriptions</h2>
+  <section class="subs-grid" id="activeSubsGrid">
 
     <div class="subs-card active" data-price="649" data-cycle="monthly">
 
@@ -104,7 +95,44 @@
 
   </section>
 
+  <h2 id="available" style="padding: 40px 60px 20px; border-top: 1px solid var(--border-soft); margin-top:20px;">Available Add-ons</h2>
+  <section class="subs-grid" id="availableSubsGrid" style="padding-bottom: 80px;">
 
+    <div class="subs-card" data-price="999" data-cycle="yearly">
+      <h3>SonyLIV Premium</h3>
+      <p class="provider">SonyLIV</p>
+      <p class="price">₹999 / year</p>
+      <p class="billing" style="color:#555">Not Subscribed</p>
+      <button onclick="toggleSub(this)">
+        + Add Subscription
+      </button>
+    </div>
+
+    <div class="subs-card" data-price="699" data-cycle="yearly">
+      <h3>Zee5 Premium</h3>
+      <p class="provider">Zee5</p>
+      <p class="price">₹699 / year</p>
+      <p class="billing" style="color:#555">Not Subscribed</p>
+      <button onclick="toggleSub(this)">
+        + Add Subscription
+      </button>
+    </div>
+
+    <div class="subs-card" data-price="1299" data-cycle="yearly">
+      <h3>HBO Max</h3>
+      <p class="provider">HBO</p>
+      <p class="price">₹1299 / year</p>
+      <p class="billing" style="color:#555">Not Subscribed</p>
+      <button onclick="toggleSub(this)">
+        + Add Subscription
+      </button>
+    </div>
+
+  </section>
+
+
+  <custom-footer></custom-footer>
+  <script src="../js/components.js"></script>
   <script src="../js/script.js"></script>
 
 </body>

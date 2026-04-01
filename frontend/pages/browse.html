@@ -10,15 +10,7 @@
 
 <body>
 
-  <header class="navbar">
-    <div class="logo">STREAMHUB</div>
-
-    <nav>
-      <a href="index.html">Home</a>
-      <a href="browse.html">Browse</a>
-      <a href="subscriptions.html">Subscriptions</a>
-    </nav>
-  </header>
+  <custom-navbar></custom-navbar>
 
 
   <section class="browse-header">
@@ -45,7 +37,7 @@
         <option value="">All Platforms</option>
         <option value="Netflix">Netflix</option>
         <option value="Prime">Prime Video</option>
-        <option value="Disney+">Disney+</option>
+        <option value="Hotstar">Hotstar</option>
 
       </select>
 
@@ -77,7 +69,13 @@
 
   <section class="content-grid" id="contentGrid"></section>
 
+  <div style="text-align: center; margin-bottom: 60px;">
+    <button id="loadMoreBtn" class="btn primary" style="display: none;">Load More</button>
+  </div>
 
+
+  <custom-footer></custom-footer>
+  <script src="../js/components.js"></script>
   <script src="../js/script.js"></script>
 
 </body>
