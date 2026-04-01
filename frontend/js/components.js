@@ -2,9 +2,8 @@ class CustomNavbar extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
       <header class="navbar">
-        <div class="logo">STREAMHUB</div>
+        <a href="index.html" class="logo">STREAMHUB</a>
         <nav>
-          <a href="index.html">Home</a>
           <a href="browse.html">Browse</a>
           <a href="watchlist.html">Watchlist</a>
           <a href="about.html">About</a>

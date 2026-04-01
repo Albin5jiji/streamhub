@@ -88,14 +88,20 @@ function renderSearch(movies){
 // NO OLD SEARCH LISTENER
 
 // MOVIE PAGE
-function openMovie(id, type = 'movie'){
-  window.location.href = `movie.html?id=${id}&type=${type}`;
+function openMovie(id, type = 'movie', sourcePlatform = ''){
+  const params = new URLSearchParams({
+    id: String(id),
+    type
+  });
+  if (sourcePlatform) params.set("platform", sourcePlatform);
+  window.location.href = `movie.html?${params.toString()}`;
 }
 
 async function loadMovieDetails(){
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
   const type = params.get("type") || "movie";
+  const sourcePlatform = params.get("platform") || "";
   if(!id) return;
   try {
     const movieRes = await fetch(`${BASE_URL}/${type}/${id}?api_key=${API_KEY}`);
@@ -110,7 +116,7 @@ async function loadMovieDetails(){
     renderMovie(movie, type);
     renderCast(castData.cast);
     renderTrailer(videoData.results);
-    loadProviders(id, type, movie);
+    loadProviders(id, type, movie, sourcePlatform);
     loadRecommendations(id, type);
   } catch (err) {
     const details = document.getElementById("movieDetails");
@@ -208,7 +214,22 @@ const OTT_URLS = {
 };
 
 // PROVIDERS
-async function loadProviders(id, type = 'movie', movieObj = null){
+function providerMatchesPlatform(providerName, platformKey) {
+  if (!providerName || !platformKey) return false;
+
+  const normalizedProvider = providerName.toLowerCase();
+  const providerAliases = {
+    Netflix: ["netflix"],
+    Prime: ["prime", "amazon prime", "prime video", "amazon video"],
+    Hotstar: ["hotstar", "disney plus hotstar"],
+    SonyLiv: ["sony liv", "sonyliv"],
+    Zee5: ["zee5", "zee 5"]
+  };
+
+  return (providerAliases[platformKey] || []).some(alias => normalizedProvider.includes(alias));
+}
+
+async function loadProviders(id, type = 'movie', movieObj = null, preferredPlatform = ''){
   try {
     const res = await fetch(`${BASE_URL}/${type}/${id}/watch/providers?api_key=${API_KEY}`);
     const data = await res.json();
@@ -231,7 +252,10 @@ async function loadProviders(id, type = 'movie', movieObj = null){
     let providerLink = link; // Default to TMDB's generic link
 
     if (providers && providers.length > 0) {
-      topProvider = providers[0].provider_name;
+      const preferredProvider = providers.find(provider =>
+        providerMatchesPlatform(provider.provider_name, preferredPlatform)
+      );
+      topProvider = preferredProvider ? preferredProvider.provider_name : providers[0].provider_name;
     } else if (movieObj && movieObj.networks && movieObj.networks.length > 0) {
       // Fallback to TV networks if watch/providers is empty
       for (let net of movieObj.networks) {
@@ -688,7 +712,7 @@ async function applyFilters(page = 1) {
       const title = item.media_type === "tv" ? item.name : item.title;
       const itemType = item.media_type;
       grid.innerHTML += `
-      <div class="content-card" onclick="openMovie(${item.id}, '${itemType}')">
+      <div class="content-card" onclick="openMovie(${item.id}, '${itemType}', '${platform}')">
         <img src="${IMG_URL + item.poster_path}">
         <h4>${title}</h4>
         <p>⭐ ${(item.vote_average || 0).toFixed(1)}</p>
