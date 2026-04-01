@@ -522,6 +522,90 @@ function loadWatchlist(){
 }
 
 let currentBrowsePage = 1;
+const PLATFORM_FILTERS = {
+  Netflix: {
+    watchProviderIds: "8"
+  },
+  Prime: {
+    watchProviderIds: "119"
+  },
+  Hotstar: {
+    watchProviderIds: "122",
+    tvNetworkIds: "3919|8036"
+  },
+  SonyLiv: {
+    watchProviderIds: "237",
+    tvNetworkIds: "2646"
+  },
+  Zee5: {
+    watchProviderIds: "232",
+    tvNetworkIds: "2590"
+  }
+};
+const GENRE_FILTERS = {
+  Action: {
+    movie: 28,
+    tv: 10759
+  },
+  Drama: {
+    movie: 18,
+    tv: 18
+  },
+  "Sci-Fi": {
+    movie: 878,
+    tv: 10765
+  }
+};
+
+function matchesGenre(item, genre) {
+  if (!genre) return true;
+  const genreId = GENRE_FILTERS[genre]?.[item.media_type];
+  if (!genreId) return true;
+  return Array.isArray(item.genre_ids) && item.genre_ids.includes(genreId);
+}
+
+async function matchesPlatform(item, platformConfig) {
+  if (!platformConfig) return true;
+
+  try {
+    const watchProviderRes = await fetch(`${BASE_URL}/${item.media_type}/${item.id}/watch/providers?api_key=${API_KEY}`);
+    const watchProviderData = await watchProviderRes.json();
+    const indiaProviders = watchProviderData.results?.IN;
+    const providerGroups = ["flatrate", "buy", "rent"];
+
+    const hasMatchingProvider = providerGroups.some(group =>
+      indiaProviders?.[group]?.some(provider =>
+        String(provider.provider_id) === platformConfig.watchProviderIds
+      )
+    );
+
+    if (hasMatchingProvider) return true;
+
+    if (item.media_type === "tv" && platformConfig.tvNetworkIds) {
+      const detailsRes = await fetch(`${BASE_URL}/tv/${item.id}?api_key=${API_KEY}`);
+      const details = await detailsRes.json();
+      const networkIds = platformConfig.tvNetworkIds.split("|");
+      return details.networks?.some(network => networkIds.includes(String(network.id))) || false;
+    }
+  } catch (err) {
+    console.error("Failed to validate platform filter for search result", err);
+  }
+
+  return false;
+}
+
+async function filterSearchResults(results, genre, platform) {
+  let filteredResults = results.filter(item => matchesGenre(item, genre));
+  const platformConfig = PLATFORM_FILTERS[platform];
+
+  if (!platformConfig) return filteredResults;
+
+  const platformMatches = await Promise.all(
+    filteredResults.map(item => matchesPlatform(item, platformConfig))
+  );
+
+  return filteredResults.filter((_, index) => platformMatches[index]);
+}
 
 async function applyFilters(page = 1) {
   currentBrowsePage = page;
@@ -550,9 +634,15 @@ async function applyFilters(page = 1) {
         url = `${BASE_URL}/search/${t}?api_key=${API_KEY}&query=${encodeURIComponent(searchStr)}&page=${page}`;
       } else {
         url = `${BASE_URL}/discover/${t}?api_key=${API_KEY}&page=${page}&watch_region=IN`;
-        if (platform === 'Netflix') url += '&with_watch_providers=8';
-        if (platform === 'Prime') url += '&with_watch_providers=119';
-        if (platform === 'Hotstar') url += '&with_watch_providers=122';
+        const platformConfig = PLATFORM_FILTERS[platform];
+        if (platformConfig) {
+          if (t === 'tv' && platformConfig.tvNetworkIds) {
+            // Some Indian streaming titles are indexed on TMDB as TV networks rather than only watch-provider entries.
+            url += `&with_networks=${platformConfig.tvNetworkIds}`;
+          } else if (platformConfig.watchProviderIds) {
+            url += `&with_watch_providers=${platformConfig.watchProviderIds}`;
+          }
+        }
         
         if (genre === 'Action') url += t === 'tv' ? '&with_genres=10759' : '&with_genres=28';
         if (genre === 'Drama') url += '&with_genres=18';
@@ -575,6 +665,12 @@ async function applyFilters(page = 1) {
       if(resObj.data.total_results) totalResults += resObj.data.total_results;
       if(resObj.data.total_pages > maxPage) maxPage = resObj.data.total_pages;
     });
+
+    if (searchStr) {
+      combinedResults = await filterSearchResults(combinedResults, genre, platform);
+      totalResults = combinedResults.length;
+      maxPage = page;
+    }
     
     combinedResults.sort((a,b) => b.popularity - a.popularity);
 
